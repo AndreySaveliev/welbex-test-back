@@ -1,13 +1,19 @@
 const { prisma } = require('../prisma/prismadb');
-
 const createPost = async (req, res) => {
   try {
-    const { body, media } = req.body;
+    const { body } = req.body;
+    // console.log(JSON.parse(JSON.stringify(req.body)));
+    const media = req.file;
     const user = req.user._id;
+
+    if (!media && !body) {
+      res.status(400).send({ message: 'BAD REQUST' });
+    }
+
     const post = await prisma.post.create({
       data: {
         body: body,
-        media: media,
+        media: media?.originalname,
         author: {
           connect: {
             id: user
@@ -15,6 +21,7 @@ const createPost = async (req, res) => {
         }
       }
     });
+
     res.status(200).send(post);
   } catch (err) {
     console.log(err);
@@ -24,12 +31,12 @@ const createPost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   try {
-    const {postId} = req.params
+    const { postId } = req.params;
     const post = await prisma.post.delete({
       where: {
         id: postId
       }
-    })
+    });
     res.status(200).send(post);
   } catch (err) {
     console.log(err);
@@ -39,18 +46,17 @@ const deletePost = async (req, res) => {
 
 const editPost = async (req, res) => {
   try {
-    const {postId} = req.params
-    const {body, media} = req.body
+    const { postId } = req.params;
+    const { body, media } = req.body;
     const post = await prisma.post.update({
       where: {
         id: postId
       },
-      //после обновления поста не будем изменять дату его создания
       data: {
         body: body,
         media: media
       }
-    })
+    });
     res.status(200).send(post);
   } catch (err) {
     console.log(err);
@@ -58,9 +64,18 @@ const editPost = async (req, res) => {
   }
 };
 
+const getAllPosts = async (req, res) => {
+  try {
+    const allPosts = await prisma.post.findMany({});
+    res.status(200).send(allPosts);
+  } catch (err) {
+    res.status(500).send({ message: 'INTERNAL POST' });
+  }
+};
 
 module.exports = {
   createPost,
   deletePost,
-  editPost
+  editPost,
+  getAllPosts
 };

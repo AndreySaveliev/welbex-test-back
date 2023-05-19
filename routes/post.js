@@ -1,10 +1,10 @@
 const router = require('express').Router();
+const { upload } = require('../uploader/uploader');
+const { createPost, deletePost, editPost, getAllPosts } = require('../controllers/post');
 
-const { createPost, deletePost, editPost } = require('../controllers/post');
-
-
-router.post('/', createPost);
+router.post('/', upload.single('filedata'), createPost);
 router.delete('/:postId', deletePost);
 router.put('/:postId', editPost);
+router.get('/', getAllPosts);
 
-module.exports = router
+module.exports = router;
