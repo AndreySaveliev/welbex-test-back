@@ -1,7 +1,7 @@
 // import { createUser } from './controllers/user';
 const { createUser, login } = require('./controllers/user');
 const { auth } = require('./midllewares/auth');
-const path = require('node:path');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
