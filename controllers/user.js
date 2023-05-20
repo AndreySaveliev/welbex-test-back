@@ -42,19 +42,36 @@ const login = async (req, res) => {
 
     const token = jwt.sign({ _id: user.id }, JWT_SECRET, {expiresIn: '7d' });
 
-    res.cookie('Welbex=', token, {
+    res.cookie('Welbex', token, {
       maxAge: 900000 * 20,
-      httpOnly: true
+      httpOnly: true,
+      sameSite: 'none',
+      secure: 'false'
     });
 
-    res.send(user);
+    res.send({user, token});
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: 'ne rabotaet' });
   }
 };
 
+const checkUser = async (req, res) => {
+  try {
+    const userId = req.user._id
+    const user = await prisma.user.findUnique({
+      where: {
+      id: userId
+      }
+    })
+    res.status(200).send(user)
+  } catch {
+    res.status(500).send({message: 'INTERNAL ERROR'})
+  }
+}
+
 module.exports = {
   createUser,
-  login
+  login,
+  checkUser
 };
