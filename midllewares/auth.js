@@ -7,7 +7,7 @@ const auth = (req, res, next) => {
     res.status(401).send({ message: 'Unauthorized' });
   }
 
-  const token = cookie.replace('Welbex==', '');
+  const token = cookie.replace('Welbex=', '');
   let payload;
   try {
     payload = jwt.verify(token, JWT_SECRET);
