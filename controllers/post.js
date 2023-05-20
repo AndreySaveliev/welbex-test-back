@@ -2,11 +2,10 @@ const { prisma } = require('../prisma/prismadb');
 const createPost = async (req, res) => {
   try {
     const { body } = req.body;
-    // console.log(JSON.parse(JSON.stringify(req.body)));
     const media = req.file;
-    const user = req.user._id;
 
-    if (!media && !body) {
+    const user = req.user._id;
+    if (!body && !media) {
       res.status(400).send({ message: 'BAD REQUST' });
     }
 
@@ -67,9 +66,10 @@ const editPost = async (req, res) => {
 const getAllPosts = async (req, res) => {
   try {
     const allPosts = await prisma.post.findMany({});
-    res.status(200).send(allPosts);
+    res.status(200).send(allPosts)
   } catch (err) {
-    res.status(500).send({ message: 'INTERNAL POST' });
+    console.log(err)
+    res.status(500).send({message: "INTERNAL ERROR"})
   }
 };
 
