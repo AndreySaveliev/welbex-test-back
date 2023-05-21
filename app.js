@@ -10,7 +10,7 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-const allowOrigins = ['http://localhost:3000', 'http://127.0.0.1:5173', 'https://welbex-test-front.vercel.app', 'https://welbex-test-front-aabcl5164-andreysaveliev.vercel.app', 'https://welbex-test-front.vercel.app'];
+const allowOrigins = ['http://localhost:3000', 'http://127.0.0.1:5173', 'https://welbex-test-front.vercel.app', 'https://welbex-test-front-dzujmadu1-andreysaveliev.vercel.app', 'https://welbex-test-front.vercel.app'];
 const vercelUrl = 'andreysaveliev.vercel.app'
 // eslint-disable-next-line consistent-return
 app.use((req, res, next) => {
