@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   else res.send('Файл загружен');
 // });
 
-app.get('/uploadfile/:imgLocalName', (req, res) => {
+app.get('/uploads/:imgLocalName', (req, res) => {
   const { imgLocalName } = req.params;
   try {
     res.sendFile(path.join(__dirname, `/uploads/${imgLocalName}`));
