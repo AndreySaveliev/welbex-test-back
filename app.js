@@ -41,14 +41,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   else res.send('Файл загружен');
 // });
 
-// app.get('/uploadfile/:imgLocalName', (req, res) => {
-//   const { imgLocalName } = req.params;
-//   try {
-//     res.sendFile(path.join(__dirname, `/uploads/${imgLocalName}`));
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
+app.get('/uploadfile/:imgLocalName', (req, res) => {
+  const { imgLocalName } = req.params;
+  try {
+    res.sendFile(path.join(__dirname, `/uploads/${imgLocalName}`));
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 app.post('/signup', createUser);
 app.post('/signin', login);
