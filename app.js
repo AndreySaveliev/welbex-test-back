@@ -15,17 +15,16 @@ const vercelUrl = 'andreysaveliev.vercel.app'
 // eslint-disable-next-line consistent-return
 app.use((req, res, next) => {
   const { origin } = req.headers;
-
-  if (allowOrigins.includes(origin) || origin.split('-').pop() == vercelUrl) {
+  if (allowOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', true);
   }
   const { method } = req;
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
   const requestHeaders = req.headers['access-control-request-headers'];
+  res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+  res.header('Access-Control-Allow-Headers', requestHeaders);
   if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
     res.status(200);
     return res.end();
   }
